@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+    Blogger | User profile
+{% endblock %}
+
+{% block contenido %}
+
+<div class = 'profile-div'>
+  
+    {% if form %}
+        {% if error_message %}
+        <div class="alert alert-danger" role="alert">
+          {{error_message}}
+        </div>
+        {% endif %}
+        <div class = "form-container" id = "form-profile">          
+        <h1>{{request.user}} <img style=" border-radius: 50%; max-width: 50px; height: auto; display: inline;" src="{{request.user.profile.img_profile.url}}" alt="" srcset=""></h1>
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <table>
+                {{form.as_table}}                
+            </table>
+            <input type="submit" value = "Guardar">
+        </form>
+      </div>
+      <a style="text-decoration: none; color: black;" href="/users/logout/">Cerrar sesión</a>
+      {% if request.user.is_staff %}
+        <a style="text-decoration: none; color: black; display: block;" href="/admin/">Panel admin</a>
+      {% endif %}
+    {% endif%}
+  
+</div>
+
+<div class = 'profile-div'>
+    
+    {% if posts %}                 
+     {% for post in posts %}
+        <div class="card mb-3" style="width: 100%;">
+            <div class="row g-0">
+              <div class="col-md-4">
+                <img src="{{post.main_image.url}}" class="img-fluid rounded-start" alt="Post image" style="height: 100%; object-fit: cover;">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title">{{post.title}}</h5>
+                  <p class="card-text">{{post.user}}</p>
+                  {% if request.user.profile.timezone %}  
+                      {% load tz %}
+                      <p class="card-text">
+                        <small class="text-muted">Últ. modificación {{ post.dt_update|timezone:request.user.profile.timezone.name }}</small>
+                      </p> 
+                      {% else %}
+                        <p class="card-text"><small class="text-muted">Ult. modificación {{ post.dt_update }}</small></p>
+                    {% endif %}
+                  <p class="card-text">                    
+                    <a href="/posts/delete-post/{{post.id}}/" class="btn btn-danger btn-card">Eliminar</a>
+                    <a href="/posts/update-post/{{post.id}}/" class="btn btn-primary btn-card">Editar</a>
+                    <a href="/posts/detail-post/{{post.id}}/" class="btn btn-primary btn-card">Ver</a>
+                  </p>                  
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+     {% else %}
+          <h2>Aún no hay publicaciones</h2>
+     {% endif %}
+</div>
+
+{% endblock %}

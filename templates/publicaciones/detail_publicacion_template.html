@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+    Blogger
+{% endblock %}
+
+{% block contenido %}
+
+    {% if publicacion %}
+    <div style="display: flex; justify-content: center; align-content: center;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 80%; border: 1px solid black;">
+            <div style="padding: 50px;">
+                <h2 class="post-title">{{ publicacion.title}}</h2>
+                <img class="img-content" src="{{publicacion.main_image.url}}" alt="" srcset="">
+                <div class = "post-autor"> 
+                    <h4>Por {% if autor %} {{publicacion.user}} <img class="img-profile-post" src="{{autor.img_profile.url}}" alt="" srcset=""> {% endif %} </h4>
+                </div> 
+                <div>
+                    <h5>Categoria: {{publicacion.category}}</h5>
+                </div>
+            </div>       
+            <div style="padding-top: 50px; padding-right: 10px; padding-bottom: 50px;">
+                {{publicacion.content|safe}}
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div style="width: 80%; margin-left: auto; margin-right: auto; border: 1px solid green"></div>
+        <h3>{{ error }}</h3>
+    </div>
+    {% endif %}
+
+{% endblock %}
