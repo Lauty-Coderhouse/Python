@@ -34,3 +34,6 @@ localhost:8000/admin
 ## Usuario normal
 + User: Daniel
 + Contraseña: dani1235
+
+## Video demostrativo de la web
++ https://www.awesomescreenshot.com/video/23306082?key=8efe0a55aa7b41c02d4d2192d4a0f45a
